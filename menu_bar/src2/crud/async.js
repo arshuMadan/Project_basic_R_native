@@ -1,45 +1,49 @@
-import React, { Component, useState } from 'react'
+import React, { Component } from 'react'
 import {View, TouchableOpacity,FlatList,Image, Text,Switch, StyleSheet,Modal, TextInput} from 'react-native'
 import {Home} from  '../../../home/index.js'
 import {Login} from '../../../login/index.js'
-import { useNavigation } from '@react-navigation/native';
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {connect} from 'react-redux'
 
 
-
-export function Tickets(props){
-    const [key, updateKey]=useState()
-    const [data, updateName]=useState()
-    const [issue, updateIssue]=useState()
-    const [value, setValue] = useState('first')
-
-    const [arr, updateArr]=useState()
-    const [flag, updateFlag]=useState(false)
-    const [flag2, updateFlag2]=useState(false)
-
-    const [red, updateRed]=useState('white')
-    const [green, updateGreen]=useState('white')
-    const [orange, updateOrange]=useState('white')
-    
+export class  Tickets extends Component{
+    constructor(){
+        super()
+        this.state={
+            key:'',
+            data:'',
+            issue:'',
+            value:'first',
+            arr:[],
+            flag:false,
+            flag2:false,
+        }
+    }  
     callUpdate=(txt)=>{
         if(txt==null){
-            AsyncStorage.setItem(key,issue)
-        updateFlag(false)
+            AsyncStorage.setItem(this.state.key,this.state.issue)
+            this.setState({flag:false})
         }
         else{
-            AsyncStorage.setItem(txt,issue)
-            updateFlag2(false)
+            AsyncStorage.setItem(txt,this.state.issue)
+            this.setState({flag2:false})
         }
     }
     updateStateName=(val1)=>{
-        updateName(val1)
+        this.setState({
+            data:val1
+        })
     }
     updateStateIssue=(val1)=>{
-        updateIssue(data+val1+val1.length)
+        this.setState({
+            issue:this.state.data+val1+val1.length
+        })
     }
     updateStateKey=(val1)=>{
-        updateKey(val1)
+        this.setState({
+            key:val1
+        })
     }
     clearAll=()=>{
         AsyncStorage.clear()
@@ -49,11 +53,15 @@ export function Tickets(props){
             const keys = await AsyncStorage.getAllKeys()
             const items = await AsyncStorage.multiGet(keys)
             if(items.length!=0){
-                updateArr(items)
+                this.setState({
+                    arr:items
+                })
                 console.log(items)
             }
             else{
-                updateArr(items)
+            this.setState({
+                arr:items
+            })
                 alert('please add Tickets')
             }
         } catch (error) {
@@ -65,34 +73,35 @@ export function Tickets(props){
     }
 
     updateData=(txt)=>{
-        updateFlag2(true)
+        this.setState({
+            flag2:true
+        })
     }
 
 
-
+     render(){
     return (
       <View style={{backgroundColor:"#B6D9FC", flex:1}}>
         <View style={{flexDirection:'row', justifyContent:'space-around', marginTop:20}}>
-        <TouchableOpacity onPress={()=>updateFlag(true)}><Text style={{alignSelf:'center', backgroundColor:'#ffff', padding:10,}}>Add Tickets</Text></TouchableOpacity>
-        <TouchableOpacity onPress={()=>ViewData()}><Text style={{alignSelf:'center', backgroundColor:'#ffff', padding:10}}>View Tickets</Text></TouchableOpacity>
-        <TouchableOpacity onPress={()=>clearAll()}><Text style={{alignSelf:'center', backgroundColor:'#ffff', padding:10}}>Clear All Ticket</Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=> this.setState({flag:true})}><Text style={{alignSelf:'center', backgroundColor:'#ffff', padding:10,}}>Add Tickets</Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=>this.ViewData()}><Text style={{alignSelf:'center', backgroundColor:'#ffff', padding:10}}>View Tickets</Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=>this.clearAll()}><Text style={{alignSelf:'center', backgroundColor:'#ffff', padding:10}}>Clear All Ticket</Text></TouchableOpacity>
         </View> 
         
 
 
         <Modal
         animationType='slide'
-        visible={flag}
+        visible={this.state.flag}
         >
         <View style={{flex:1,alignItems:'center',backgroundColor:'#B6D9FC', justifyContent:'center'}}>
-            <TextInput onChangeText={(text)=>updateStateName(text)} style={{borderColor:'#ffff',width:300, borderWidth:1, margin:10 ,padding:10 }}placeholder='Enter Name' autcorrect={false} autcorrect={false}/>
-            <TextInput onChangeText={(text)=>updateStateIssue(text)} style={{borderColor:'#ffff',width:300,  borderWidth:1, margin:10, padding:10 }}placeholder='Issue' autocorrect={false} autcorrect={false}/>
-            <TextInput onChangeText={(text)=>updateStateKey(text)} style={{borderColor:'#ffff',width:300,  borderWidth:1, margin:10, padding:10 }}placeholder='Private Key   Ex: "key1"' autocorrect={false} autcorrect={false}/>
+            <TextInput onChangeText={(text)=>this.updateStateName(text)} style={{borderColor:'#ffff',width:300, borderWidth:1, margin:10 ,padding:10 }}placeholder='Enter Name' autcorrect={false} autcorrect={false}/>
+            <TextInput onChangeText={(text)=>this.updateStateIssue(text)} style={{borderColor:'#ffff',width:300,  borderWidth:1, margin:10, padding:10 }}placeholder='Issue' autocorrect={false} autcorrect={false}/>
+            <TextInput onChangeText={(text)=>this.updateStateKey(text)} style={{borderColor:'#ffff',width:300,  borderWidth:1, margin:10, padding:10 }}placeholder='Private Key   Ex: "key1"' autocorrect={false} autcorrect={false}/>
             <Text style={{position:'relative',right:110,top:10,margin:10,color:'black'}}>Give Priority</Text>
             <View style={{flexDirection:'row' ,alignSelf:'center', marginTop:10}}>
-            <TouchableOpacity onPress={()=>callUpdate()}><Text style={{alignSelf:'center', backgroundColor:'#ffff', padding:20,margin:10}}>Add Ticket</Text></TouchableOpacity>
-            <TouchableOpacity onPress={()=>updateFlag(false)}><Text style={{alignSelf:'center', backgroundColor:'#ffff', padding:20,margin:10}}>Cancel</Text></TouchableOpacity>
-            
+            <TouchableOpacity onPress={()=>this.callUpdate()}><Text style={{alignSelf:'center', backgroundColor:'#ffff', padding:20,margin:10}}>Add Ticket</Text></TouchableOpacity>
+            <TouchableOpacity onPress={()=>this.setState({flag:false})}><Text style={{alignSelf:'center', backgroundColor:'#ffff', padding:20,margin:10}}>Cancel</Text></TouchableOpacity>
         
         </View>
         </View>
@@ -103,7 +112,7 @@ export function Tickets(props){
         <FlatList
         
 
-        data={arr}
+        data={this.state.arr}
         autoorrect={false}
         scrollEnabled={true}
         renderItem={({ item }) => {
@@ -112,17 +121,17 @@ export function Tickets(props){
 
         <Modal
         animationType='slide'
-        visible={flag2}
+        visible={this.state.flag2}
         >
         <View style={{flex:1,alignItems:'center',backgroundColor:'#B6D9FC', justifyContent:'center'}}>
             <Text></Text>
-            <TextInput onChangeText={(text)=>updateStateName(text)} style={{borderColor:'#ffff',width:300, borderWidth:1, margin:10 ,padding:10 }}placeholder='Enter Name' autcorrect={false} autcorrect={false}/>
-            <TextInput onChangeText={(text)=>updateStateIssue(text)} style={{borderColor:'#ffff',width:300,  borderWidth:1, margin:10, padding:10 }}placeholder='Issue' autocorrect={false} autcorrect={false}/>
+            <TextInput onChangeText={(text)=>this.updateStateName(text)} style={{borderColor:'#ffff',width:300, borderWidth:1, margin:10 ,padding:10 }}placeholder='Enter Name' autcorrect={false} autcorrect={false}/>
+            <TextInput onChangeText={(text)=>this.updateStateIssue(text)} style={{borderColor:'#ffff',width:300,  borderWidth:1, margin:10, padding:10 }}placeholder='Issue' autocorrect={false} autcorrect={false}/>
             <Text style={{position:'relative',right:110,top:10,margin:10,color:'gray'}}>Give Priority</Text>
             
             <View style={{flexDirection:'row' ,alignSelf:'center',margin:10}}>
-            <TouchableOpacity onPress={()=>callUpdate(item[0])}><Text style={{alignSelf:'center', backgroundColor:'#ffff', padding:20,margin:10}}>Update</Text></TouchableOpacity>
-            <TouchableOpacity onPress={()=>updateFlag2(false)}><Text style={{alignSelf:'center', backgroundColor:'#ffff', padding:20,margin:10}}>Cancel</Text></TouchableOpacity>
+            <TouchableOpacity onPress={()=>this.callUpdate(item[0])}><Text style={{alignSelf:'center', backgroundColor:'#ffff', padding:20,margin:10}}>Update</Text></TouchableOpacity>
+            <TouchableOpacity onPress={()=>this.setState({flag:false})}><Text style={{alignSelf:'center', backgroundColor:'#ffff', padding:20,margin:10}}>Cancel</Text></TouchableOpacity>
         
         </View>
         </View>
@@ -142,8 +151,8 @@ export function Tickets(props){
                         </View>
                         <View style={{width:70}}>
                             <View style={{flexDirection:'column'}}>
-                                <TouchableOpacity onPress={()=>delData(item[0])}><Text style={{alignSelf:'center', backgroundColor:'red',fontSize:10, padding:5, margin:5}}>Delete</Text></TouchableOpacity>
-                                <TouchableOpacity onPress={()=>updateData(key)}><Text style={{alignSelf:'center', backgroundColor:'orange',fontSize:10,  padding:5, margin:5}}>Update</Text></TouchableOpacity>
+                                <TouchableOpacity onPress={()=>this.delData(item[0])}><Text style={{alignSelf:'center', backgroundColor:'red',fontSize:10, padding:5, margin:5}}>Delete</Text></TouchableOpacity>
+                                <TouchableOpacity onPress={()=>this.updateData(this.state.key)}><Text style={{alignSelf:'center', backgroundColor:'orange',fontSize:10,  padding:5, margin:5}}>Update</Text></TouchableOpacity>
                             </View>
                         </View>
                     </View>
@@ -160,5 +169,5 @@ export function Tickets(props){
     )
   
 }
-
+}
 export default Tickets
