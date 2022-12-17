@@ -41,7 +41,7 @@ export class InputEmailField extends Component {
     return (
       <View style={{marginBottom:30}}>
       <View>
-        <TextInput defaultValue='demoadmin' autoCorrect={false}  autoCapitalize={false} style={[style.style1, {borderWidth:this.state.borderWidth}]}  onChangeText={(email)=>this.validation(email)} placeholder={this.props.title} placeholderTextColor="black" onBlur={this.offocusText} onFocus={this.onfocusText}/>
+        <TextInput defaultValue='deepak.admin@gmail.com' autoCorrect={false}  autoCapitalize={false} style={[style.style1, {borderWidth:this.state.borderWidth}]}  onChangeText={(email)=>this.validation(email)} placeholder={this.props.title} placeholderTextColor="black" onBlur={this.offocusText} onFocus={this.onfocusText}/>
       </View>
       <View >
         <Text style={{color:this.state.color}} >Please fill this field</Text>

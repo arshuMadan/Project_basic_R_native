@@ -30,7 +30,7 @@ export class Login extends Component {
             <View style={style.button2}>
                
 
-               <ButtonTwo inputEmail={this.props.state.email} inputPass={this.props.state.password} recData={this.setData}/>
+               <ButtonTwo inputEmail={this.props.state.email} inputPass={this.props.state.password} recData={this.setData} navigation={this.props.navigation}/>
             </View>
           
           </View>

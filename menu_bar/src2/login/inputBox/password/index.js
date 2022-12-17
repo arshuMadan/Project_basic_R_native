@@ -63,7 +63,7 @@ export class InputPassField extends Component {
     return (
       <View style={{marginBottom:30}}>
       <View>
-        <TextInput defaultValue='Demopass@1' autoCorrect={false}  autoCapitalize={false} style={[style.style1, {borderWidth:this.state.borderWidth}]}  onChangeText={(email)=>this.validation(email)} placeholder={this.props.title} placeholderTextColor="black" onBlur={this.offocusText} onFocus={this.onfocusText}/>
+        <TextInput defaultValue='Password@1' autoCorrect={false}  autoCapitalize={false} style={[style.style1, {borderWidth:this.state.borderWidth}]}  onChangeText={(email)=>this.validation(email)} placeholder={this.props.title} placeholderTextColor="black" onBlur={this.offocusText} onFocus={this.onfocusText}/>
       </View>
       <View >
         <Text style={{color:this.state.color}} >Please fill this field</Text>

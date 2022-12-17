@@ -92,6 +92,7 @@ export function Tickets(props){
             <View style={{flexDirection:'row' ,alignSelf:'center', marginTop:10}}>
             <TouchableOpacity onPress={()=>callUpdate()}><Text style={{alignSelf:'center', backgroundColor:'#ffff', padding:20,margin:10}}>Add Ticket</Text></TouchableOpacity>
             <TouchableOpacity onPress={()=>updateFlag(false)}><Text style={{alignSelf:'center', backgroundColor:'#ffff', padding:20,margin:10}}>Cancel</Text></TouchableOpacity>
+            
         
         </View>
         </View>
