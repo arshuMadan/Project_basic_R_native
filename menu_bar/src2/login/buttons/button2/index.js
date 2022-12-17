@@ -5,8 +5,21 @@ import axios from 'axios'
 import {set_email, set_password} from '../../../redux/actions.js'
 
 export  class ButtonTwo extends Component{
+  constructor(){
+    super()
+    this.state={
+      emailValue:'',
+      passValue:'',
+      responseMessage:false
+    }
+  }
     validation=(text1, text2)=>{
-      console.log(text1, text2)
+      
+      this.setState({
+        emailValue:text1,
+        passValue:text2
+      })
+      console.log('hi',this.state.emailValue, this.state.passValue)
       const {navigate}=this.props.navigation
     axios.post('https://qa.faveodemo.com/deepaktest/public/v3/api/login',{
       email:text1,
