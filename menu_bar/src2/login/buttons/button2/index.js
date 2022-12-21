@@ -38,7 +38,7 @@ export  class ButtonTwo extends Component{
 
     return (
       <View>
-        <TouchableOpacity style={style.button} onPress={()=> this.validation(this.props.inputEmail, this.props.inputPass)}>
+        <TouchableOpacity style={style.button} onPress={()=> this.validation(this.props.inputEmail.payload, this.props.inputPass.payload)}>
             <Text style={style.text}>Sign in </Text>
         </TouchableOpacity>
       </View>

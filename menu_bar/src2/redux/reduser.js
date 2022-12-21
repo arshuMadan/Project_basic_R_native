@@ -1,4 +1,4 @@
-import {SET_EMAIL_,SET_PASSWORD_} from './actions.js'
+/*import {SET_EMAIL_,SET_PASSWORD_} from './actions.js'
 const initialState = {
     email: 'empty',
     password:'empty'
@@ -20,3 +20,27 @@ export const reducer = (state = initialState, action) => {
         return state;
     }
   };
+*/
+import { createSlice } from '@reduxjs/toolkit'
+
+const initialState = {
+  email: 'empty',
+  password:'empty'
+}
+
+export const counterSlice = createSlice({
+  name: 'counter',
+  initialState,
+  reducers: {
+    set_email: (state,val1) => {
+      state.email = val1
+    },
+    set_password: (state,val1) => {
+      state.password = val1
+    },
+  },
+})
+
+export const { set_email, set_password } = counterSlice.actions
+
+export default counterSlice.reducer

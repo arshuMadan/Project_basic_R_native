@@ -32,8 +32,9 @@ describe('VerifyEmail Screen component Unit Testing', () => {
       component.validation();
       moxios.stubRequest('https://qa.faveodemo.com/deepaktest/public/v3/api/login', {
           status: 200,
-          response: VerifyEmailResponse,
+          response: 'VerifyEmailResponse',
       });
+
       setTimeout(() => {
         expect(moxios.requests.mostRecent().url).toBe(
           'https://qa.faveodemo.com/deepaktest/public/v3/api/login',
